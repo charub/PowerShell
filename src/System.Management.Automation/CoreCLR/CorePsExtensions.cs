@@ -951,9 +951,100 @@ namespace System.Management.Automation
 #endif
         }
 
-        #endregion EnvironmentVariable_Extensions
+        /// <summary>
+        /// The code is mostly copied from the .NET implementation.
+        /// The only difference is how resource string is retrieved.
+        /// We use the same resource string as in .NET implementation.
+        /// </summary>
+        public static void SetEnvironmentVariable(string variable, string value, EnvironmentVariableTarget target)
+        {
+            if (target == EnvironmentVariableTarget.Process)
+            {
+                Environment.SetEnvironmentVariable(variable, value);
+                return;
+            }
+#if UNIX
+    return;
+#else
+            Environment.CheckEnvironmentVariableName(variable);
+            if (string.IsNullOrEmpty(value) || value[0] == '\0')
+            {
+                value = null;
+            }
+            else if (value.Length >= 32767)
+            {
+                throw new ArgumentException("Argument_LongEnvVarValue");
+            }
+            if (target == EnvironmentVariableTarget.Machine)
+            {
+                using (RegistryKey registryKey = Registry.LocalMachine.OpenSubKey("System\\CurrentControlSet\\Control\\Session Manager\\Environment", true))
+                {
+                    if (registryKey != null)
+                    {
+                        if (value == null)
+                        {
+                            registryKey.DeleteValue(variable, false);
+                        }
+                        else
+                        {
+                            registryKey.SetValue(variable, value);
+                        }
+                    }
+                }
+            }
+            else if (target == EnvironmentVariableTarget.User)
+            {
+                if (variable.Length >= 255)
+                {
+                    throw new ArgumentException("Argument_LongEnvVarValue");
+                }
+                using (RegistryKey registryKey2 = Registry.CurrentUser.OpenSubKey("Environment", true))
+                {
+                    if (registryKey2 != null)
+                    {
+                        if (value == null)
+                        {
+                            registryKey2.DeleteValue(variable, false);
+                        }
+                        else
+                        {
+                            registryKey2.SetValue(variable, value);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                throw new ArgumentException("Arg_EnumIllegalVal");
+            }
+#endif
+        }
+        private static void CheckEnvironmentVariableName(string variable)
+        {
+            if (variable == null)
+            {
+                throw new ArgumentNullException("variable");
+            }
+            if (variable.Length == 0)
+            {
+                throw new ArgumentException("Argument_StringZeroLength");
+            }
+            if (variable[0] == '\0')
+            {
+                throw new ArgumentException("Argument_StringFirstCharIsZero");
+            }
+            if (variable.Length >= 32767)
+            {
+                throw new ArgumentException("Argument_LongEnvVarValue");
+            }
+            if (variable.IndexOf('=') != -1)
+            {
+                throw new ArgumentException("Argument_IllegalEnvVarName");
+            }
+        }
+#endregion EnvironmentVariable_Extensions
 
-        #region Property_Extensions
+#region Property_Extensions
 
         /// <summary>
         /// UserDomainName
@@ -1018,9 +1109,9 @@ namespace System.Management.Automation
         }
         private static volatile OperatingSystem s_os;
 
-        #endregion Property_Extensions
+#endregion Property_Extensions
 
-        #region SpecialFolder_Extensions
+#region SpecialFolder_Extensions
 
         /// <summary>
         /// The code is copied from the .NET implementation.
@@ -1141,9 +1232,9 @@ namespace System.Management.Automation
             return folderPath ?? string.Empty;
         }
 
-        #endregion SpecialFolder_Extensions
+#endregion SpecialFolder_Extensions
 
-        #region WinPlatform_Specific_Methods
+#region WinPlatform_Specific_Methods
 #if !UNIX
         /// <summary>
         /// Windows UserDomainName implementation
@@ -1275,9 +1366,9 @@ namespace System.Management.Automation
             }
         }
 #endif
-        #endregion WinPlatform_Specific_Methods
+#endregion WinPlatform_Specific_Methods
 
-        #region NestedTypes
+#region NestedTypes
 
         // Porting note: MyDocuments does not exist on .NET Core, but Personal does, and
         // they both point to your "documents repository," which on linux, is just the
@@ -1351,12 +1442,12 @@ namespace System.Management.Automation
             }
         }
 
-        #endregion NestedTypes
+#endregion NestedTypes
     }
 
-    #endregion Environment Extensions
+#endregion Environment Extensions
 
-    #region Non-generic collection extensions
+#region Non-generic collection extensions
 
     /// <summary>
     /// Add the AttributeCollection type with stripped functionalities for powershell on CoreCLR.
@@ -1372,7 +1463,7 @@ namespace System.Management.Automation
         /// </summary>
         public static readonly AttributeCollection Empty = new AttributeCollection(null);
 
-        #region Constructors
+#region Constructors
 
         /// <summary>
         /// AttributeCollection protected constructor
@@ -1402,9 +1493,9 @@ namespace System.Management.Automation
             }
         }
 
-        #endregion Constructors
+#endregion Constructors
 
-        #region Methods
+#region Methods
 
         /// <summary>
         /// Copies the collection to an array, starting at the specified index.
@@ -1430,9 +1521,9 @@ namespace System.Management.Automation
             return this.GetEnumerator();
         }
 
-        #endregion Methods
+#endregion Methods
 
-        #region Properties
+#region Properties
 
         private readonly Attribute[] _attributes;
         /// <summary>
@@ -1495,12 +1586,12 @@ namespace System.Management.Automation
             }
         }
 
-        #endregion Properties
+#endregion Properties
     }
 
-    #endregion Non-generic collection extensions
+#endregion Non-generic collection extensions
 
-    #region Misc extensions
+#region Misc extensions
 
     /// <summary>
     /// Add the Pointer type with stripped functionalities for PowerShell on CoreCLR.
@@ -1515,7 +1606,7 @@ namespace System.Management.Automation
         {
         }
 
-        #region Methods
+#region Methods
 
         /// <summary>
         /// Boxes the supplied unmanaged memory pointer and the type associated with that pointer into a managed Pointer wrapper object.
@@ -1556,7 +1647,7 @@ namespace System.Management.Automation
             return ((Pointer)ptr)._ptr;
         }
 
-        #endregion Methods
+#endregion Methods
     }
 
     internal static class ListExtensions
@@ -1593,7 +1684,7 @@ namespace System.Management.Automation
         }
     }
 
-    #endregion Misc extensions
+#endregion Misc extensions
 }
 
 

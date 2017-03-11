@@ -1,4 +1,4 @@
-@{
+﻿@{
 GUID="1DA87E53-152B-403E-98DC-74D7B4D63D59"
 Author="Microsoft Corporation"
 CompanyName="Microsoft Corporation"
@@ -24,7 +24,8 @@ CmdletsToExport= "Format-List", "Format-Custom", "Format-Table", "Format-Wide",
     "Remove-PSBreakpoint", "Enable-PSBreakpoint", "Disable-PSBreakpoint", "Get-PSCallStack",
     "Send-MailMessage", "Get-TraceSource", "Set-TraceSource", "Trace-Command", "Show-Command", "Unblock-File", "Get-FileHash",
     "Get-Runspace", "Debug-Runspace", "Enable-RunspaceDebug", "Disable-RunspaceDebug", "Get-RunspaceDebug", "Wait-Debugger",
-    "ConvertFrom-String", "Convert-String" , "Get-Uptime", "New-TemporaryFile", "Get-Verb"
+    "ConvertFrom-String", "Convert-String" , "Get-Uptime", "New-TemporaryFile", "Get-Verb","Get-EnvironmentVariable", "Set-EnvironmentVariable",
+    "New-EnvironmentVariable", "Add-EnvironmentVariable", "Remove-EnvironmentVariable"
 FunctionsToExport= "Format-Hex", "ConvertFrom-SddlString"
 AliasesToExport= "CFS", "fhx"
 NestedModules="Microsoft.PowerShell.Commands.Utility.dll","Microsoft.PowerShell.Utility.psm1"

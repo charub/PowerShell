@@ -112,10 +112,10 @@
     <value>2.0</value>
   </resheader>
   <resheader name="reader">
-    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <resheader name="writer">
-    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="SetVariableAction" xml:space="preserve">
     <value>Set variable</value>
@@ -146,5 +146,29 @@
   </data>
   <data name="ClearVariableTarget" xml:space="preserve">
     <value>Name: {0}</value>
+  </data>
+  <data name="AddEnvironmentVariableAction" xml:space="preserve">
+    <value>Add Environment Variable</value>
+  </data>
+  <data name="AddEnvironmentVariableTarget" xml:space="preserve">
+    <value>Name: {0} Value: {1}</value>
+  </data>
+  <data name="NewEnvironmentVariableAction" xml:space="preserve">
+    <value>New Environment Variable</value>
+  </data>
+  <data name="NewEnvironmentVariableTarget" xml:space="preserve">
+    <value>Name: {0} Value: {1}</value>
+  </data>
+  <data name="RemoveEnvironmentVariableAction" xml:space="preserve">
+    <value>Remove Environment Variable</value>
+  </data>
+  <data name="RemoveEnvironmentVariableTarget" xml:space="preserve">
+    <value>Name: {0}</value>
+  </data>
+  <data name="SetEnvironmentVariableAction" xml:space="preserve">
+    <value>Set Environment Variable</value>
+  </data>
+  <data name="SetEnvironmentVariableTarget" xml:space="preserve">
+    <value>Name: {0} Value: {1}</value>
   </data>
 </root>
